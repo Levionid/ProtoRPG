@@ -8,29 +8,22 @@ class Menu:
         self.quit_button = Button(screen.get_width()/2, screen.get_height()/10*8, 480/settings["GUI_SIZE"], 60/settings["GUI_SIZE"], "assets/quit_button.png")
 
     def update(self, screen: pg.Surface) -> str:
+        feedback = ''
+
         self.play_button.update(screen)
         self.settings_button.update(screen)
         self.quit_button.update(screen)
 
         if self.play_button.is_clicked:
-            self.play_function()
+            feedback = 'play'
         if self.settings_button.is_clicked:
-            self.settings_function()
+            feedback = 'settings'
         if self.quit_button.is_clicked:
-            self.quit_function()
+            feedback = 'quit'
 
-        return '' if not self.play_button.is_clicked else 'game'
+        return feedback
 
     def draw(self, screen: pg.Surface):
         self.play_button.draw(screen)
         self.settings_button.draw(screen)
         self.quit_button.draw(screen)
-
-    def play_function(self):
-        pass
-
-    def settings_function(self):
-        pass
-
-    def quit_function(self):
-        exit()

@@ -19,10 +19,14 @@ def main(settings):
                 running = False
 
         application_feedback = application.update(screen)
-        if application_feedback == 'game':
+        if application_feedback == 'play':
             application = Game()
         elif application_feedback == 'menu':
             application = Menu(screen, settings)
+        elif application_feedback == 'settings':
+            pass
+        elif application_feedback == 'quit':
+            running = False
 
         screen.fill((0, 0, 0))
 

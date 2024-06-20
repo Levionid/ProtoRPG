@@ -1,7 +1,12 @@
 import pygame as pg
 
 class Button:
-    def __init__(self, centerx, centery, width, height, image_path):
+    def __init__(self, 
+                 centerx: float, 
+                 centery: float, 
+                 width: float, 
+                 height: float, 
+                 image_path: str):
         self.rect = pg.Rect(0, 0, width, height)
         self.rect.center = centerx, centery
         try:
@@ -10,7 +15,7 @@ class Button:
             self.image = pg.transform.scale(pg.image.load('assets/error.png'), (width, height)).convert_alpha()
         self.is_clicked = False
 
-    def update(self, screen):
+    def update(self, screen: pg.Surface):
         mouse_position = pg.mouse.get_pos()
         mouse_pressed = pg.mouse.get_pressed()
         if self.rect.collidepoint(mouse_position):
@@ -20,5 +25,5 @@ class Button:
         if not mouse_pressed[0] and self.is_clicked:
             self.is_clicked = False
 
-    def draw(self, screen):
+    def draw(self, screen: pg.Surface):
         screen.blit(self.image, self.rect)
