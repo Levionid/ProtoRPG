@@ -1,13 +1,16 @@
 import pygame as pg
 import json
-from game import Game
+from Menu import Menu
+from Game import Game
 
 def main(settings):
-    application = Game()
+    pg.init()
 
     screen = pg.display.set_mode(size=(settings['WIDTH'], settings['HEIGHT']),
                              flags=pg.FULLSCREEN if settings['FULLSCREEN'] else 0)
     clock = pg.time.Clock()
+
+    application = Menu(screen, settings)
 
     running = True
     while running:
@@ -15,11 +18,15 @@ def main(settings):
             if event.type == pg.QUIT:
                 running = False
 
-        application.update()
+        application_feedback = application.update(screen)
+        if application_feedback == 'game':
+            application = Game()
+        elif application_feedback == 'menu':
+            application = Menu(screen, settings)
 
         screen.fill((0, 0, 0))
 
-        application.draw()
+        application.draw(screen)
 
         pg.display.flip()
         clock.tick(settings['FPS'])
@@ -35,7 +42,8 @@ if __name__ == '__main__':
             "WIDTH": 960,
             "HEIGHT": 540,
             "FPS": 60,
-            "FULLSCREEN": False
+            "FULLSCREEN": False,
+            "GUI_SIZE": 1
             }
         with open('settings.json', 'w') as file:
             json.dump(settings, file)

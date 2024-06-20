@@ -4,9 +4,8 @@ class Game:
     def __init__(self):
         pass
 
-    def update(self):
-        
+    def update(self, screen: pg.Surface):
         pass
 
-    def draw(self):
+    def draw(self, screen: pg.Surface):
         pass
