@@ -37,7 +37,7 @@ def main(settings):
         pg.display.set_caption(str(int(clock.get_fps())))
     pg.quit()
 
-if __name__ == '__main__':
+def get_options() -> dict:
     try:
         with open('settings.json', 'r') as file:
             settings = json.load(file)
@@ -51,5 +51,10 @@ if __name__ == '__main__':
             }
         with open('settings.json', 'w') as file:
             json.dump(settings, file)
+
+    return settings
+
+if __name__ == '__main__':
+    settings = get_options()
     
     main(settings)
