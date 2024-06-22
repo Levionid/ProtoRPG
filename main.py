@@ -1,7 +1,6 @@
 import pygame as pg
 import json
 from Menu import Menu
-from Game import Game
 
 class Application:
     def __init__(self, settings):
@@ -9,38 +8,25 @@ class Application:
         self.screen = pg.display.set_mode(size=(settings['WIDTH'], settings['HEIGHT']))
         self.clock = pg.time.Clock()
         self.settings = settings
-        self.application = None
-        self.menuDef()
-        self.running = False
+        self.application = Menu()
+        self.application.menuDef(self.screen, self.settings)
 
     def run(self):
-        self.running = True
+        self.application.running = True
 
-        while self.running:
+        while self.application.running:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
-                    self.running = False
+                    self.application.running = False
 
-            self.application.update(self.screen)
+            self.application.menu.update(self.screen)
             
-            self.application.draw(self.screen)
+            self.application.menu.draw(self.screen)
 
             pg.display.flip()
             self.clock.tick(settings['FPS'])
             pg.display.set_caption(str(int(self.clock.get_fps())))
         pg.quit()
-
-    def menuDef(self):
-        self.application = Menu(self.screen, self.settings, self.playDef, self.settingsDef, self.quitDef)
-
-    def playDef(self):
-        self.application = Game()
-
-    def settingsDef(self):
-        pass
-
-    def quitDef(self):
-        self.running = False
 
 def get_options() -> dict:
     try:
