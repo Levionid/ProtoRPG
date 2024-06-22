@@ -3,37 +3,44 @@ import json
 from Menu import Menu
 from Game import Game
 
-def main(settings):
-    pg.init()
+class Application:
+    def __init__(self, settings):
+        pg.init()
+        self.screen = pg.display.set_mode(size=(settings['WIDTH'], settings['HEIGHT']))
+        self.clock = pg.time.Clock()
+        self.settings = settings
+        self.application = None
+        self.menuDef()
+        self.running = False
 
-    screen = pg.display.set_mode(size=(settings['WIDTH'], settings['HEIGHT']),
-                             flags=pg.FULLSCREEN if settings['FULLSCREEN'] else 0)
-    clock = pg.time.Clock()
+    def run(self):
+        self.running = True
 
-    application = Menu(screen, settings)
+        while self.running:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.running = False
 
-    running = True
-    while running:
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                running = False
+            self.application.update(self.screen)
+            
+            self.application.draw(self.screen)
 
-        application_feedback = application.update(screen)
-        if application_feedback == 'play':
-            application = Game()
-        elif application_feedback == 'menu':
-            application = Menu(screen, settings)
-        elif application_feedback == 'settings':
-            pass
-        elif application_feedback == 'quit':
-            running = False
+            pg.display.flip()
+            self.clock.tick(settings['FPS'])
+            pg.display.set_caption(str(int(self.clock.get_fps())))
+        pg.quit()
 
-        application.draw(screen)
+    def menuDef(self):
+        self.application = Menu(self.screen, self.settings, self.playDef, self.settingsDef, self.quitDef)
 
-        pg.display.flip()
-        clock.tick(settings['FPS'])
-        pg.display.set_caption(str(int(clock.get_fps())))
-    pg.quit()
+    def playDef(self):
+        self.application = Game()
+
+    def settingsDef(self):
+        pass
+
+    def quitDef(self):
+        self.running = False
 
 def get_options() -> dict:
     try:
@@ -55,4 +62,5 @@ def get_options() -> dict:
 if __name__ == '__main__':
     settings = get_options()
     
-    main(settings)
+    app = Application(settings)
+    app.run()

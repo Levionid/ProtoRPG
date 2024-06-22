@@ -4,7 +4,15 @@ import time
 import math
 
 class Menu:
-    def __init__(self, screen: pg.Surface, settings: dict):
+    def __init__(self, screen: pg.Surface, 
+                 settings: dict,
+                 playDef, 
+                 settingsDef, 
+                 quitDef):
+        self.playDef = playDef
+        self.settingsDef = settingsDef
+        self.quitDef = quitDef
+
         buttons_size = (516/settings["GUI_SIZE"], 116/settings["GUI_SIZE"])
 
         self.play_button = Button(screen.get_width()/2, screen.get_height()/10*4.5, 
@@ -29,7 +37,7 @@ class Menu:
         self.gradient_rect = pg.Rect(0, settings["HEIGHT"]-self.gradient.get_size()[1], 
                                   *self.gradient.get_size())
 
-    def update(self, screen: pg.Surface) -> str:
+    def update(self, screen: pg.Surface):
         feedback = ''
 
         self.play_button.update(screen)
@@ -37,13 +45,11 @@ class Menu:
         self.quit_button.update(screen)
 
         if self.play_button.is_clicked:
-            feedback = 'play'
+            self.playDef()
         if self.settings_button.is_clicked:
-            feedback = 'settings'
+            self.settingsDef()
         if self.quit_button.is_clicked:
-            feedback = 'quit'
-
-        return feedback
+            self.quitDef()
 
     def draw(self, screen: pg.Surface):
         screen.fill("#606060")
