@@ -28,8 +28,6 @@ def main(settings):
         elif application_feedback == 'quit':
             running = False
 
-        screen.fill((0, 0, 0))
-
         application.draw(screen)
 
         pg.display.flip()

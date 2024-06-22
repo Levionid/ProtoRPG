@@ -8,4 +8,4 @@ class Game:
         pass
 
     def draw(self, screen: pg.Surface):
-        pass
+        screen.fill((0, 0, 0))
