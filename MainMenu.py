@@ -38,8 +38,6 @@ class MainMenu:
                                   *self.gradient.get_size())
 
     def update(self, screen: pg.Surface):
-        feedback = ''
-
         self.play_button.update(screen)
         self.settings_button.update(screen)
         self.quit_button.update(screen)
